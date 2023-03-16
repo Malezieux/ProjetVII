@@ -3,22 +3,23 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+{% include 'navbar.php' %}
+    <h1 className='red-500'>Mon profil</h1>
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
+{% if is_granted('ROLE_USER') %}
             <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
-            
             <tr>
-                <th>Nom</th>
+
+                <th>Nom </th>
                 <td>{{ user.nom }}</td>
             </tr>
+
+             <a href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
+            {% endif %}
             <tr>
                 <th>Prenom</th>
                 <td>{{ user.prenom }}</td>
@@ -38,7 +39,6 @@
 
     <a href="{{ path('app_profil_index') }}">back to list</a>
 
-    <a href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
 
     {{ include('profil/_delete_form.html.twig') }}
 {% endblock %}
