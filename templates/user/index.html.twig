@@ -3,11 +3,11 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-{% include 'navbar.php' %}
+{% include 'navbar.php'%}
     <h1 className='red-500'>Mon profil</h1>
     <table class="table">
         <tbody>
-{% if is_granted('ROLE_USER') %}
+{% if is_granted('ROLE_ADMIN') %}
             <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
@@ -18,7 +18,7 @@
                 <td>{{ user.nom }}</td>
             </tr>
 
-             <a href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
+             
             {% endif %}
             <tr>
                 <th>Prenom</th>
@@ -35,7 +35,7 @@
         </tbody>
     </table>
 
- 
+ <a href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
 
     <a href="{{ path('app_profil_index') }}">back to list</a>
 
