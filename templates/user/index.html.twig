@@ -7,33 +7,20 @@
     <h1 className='red-500'>Mon profil</h1>
     <table class="table">
         <tbody>
-{% if is_granted('ROLE_ADMIN') %}
+
             <tr>
                 <th>Email</th>
-                <td>{{ user.email }}</td>
+            
+          
+        
+                <td>{{ user.password}}</td>
+                 <td>Email: {{ profils.email }}</td>
+                 <td>{{ profils.nom }}</td>
             </tr>
-            <tr>
-
-                <th>Nom </th>
-                <td>{{ user.nom }}</td>
-            </tr>
-
-             
-            {% endif %}
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Formation</th>
-                <td>{{ user.formation }}</td>
-            </tr>
-            <tr>
-                <th>Promotion</th>
-                <td>{{ user.promotion }}</td>
-            </tr>
+      
         </tbody>
     </table>
+
 
  <a href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
 

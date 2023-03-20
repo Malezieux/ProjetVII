@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
-
+use App\Entity\Profil;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\ProfilRepository;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,16 +18,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
-    public function profil(): Response
+    public function Profil(UserRepository $userRepository, ProfilRepository $profilRepository): Response
     {
+        // Récupérer les données des entités User et Profil depuis la base de données
+        $user = $userRepository->getUser();
+        $profils = $profilRepository->findAll();
+        var_dump($user);
         
-        $user = $this->getUser();
-        //var_dump($user);
+        // Transmettre les données à la vue Twig pour les afficher
         return $this->render('user/index.html.twig', [
             'user' => $user,
+            'profils' => $profils,
         ]);
-        
     }
+
+
+ 
 
     #[Route('/', name: 'app_profil_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
