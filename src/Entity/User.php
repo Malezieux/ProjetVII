@@ -28,17 +28,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $prenom = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $formation = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $promotion = null;
+    #[ORM\OneToOne(mappedBy: 'IdUser', cascade: ['persist', 'remove'])]
+    private ?Profil $profil = null;
 
     public function getId(): ?int
     {
@@ -110,51 +101,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getNom(): ?string
+    public function getProfil(): ?Profil
     {
-        return $this->nom;
+        return $this->profil;
     }
 
-    public function setNom(?string $nom): self
+    public function setProfil(?Profil $profil): self
     {
-        $this->nom = $nom;
+        // unset the owning side of the relation if necessary
+        if ($profil === null && $this->profil !== null) {
+            $this->profil->setIdUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($profil !== null && $profil->getIdUser() !== $this) {
+            $profil->setIdUser($this);
+        }
+
+        $this->profil = $profil;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): self
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getFormation(): ?string
-    {
-        return $this->formation;
-    }
-
-    public function setFormation(?string $formation): self
-    {
-        $this->formation = $formation;
-
-        return $this;
-    }
-
-    public function getPromotion(): ?int
-    {
-        return $this->promotion;
-    }
-
-    public function setPromotion(?int $promotion): self
-    {
-        $this->promotion = $promotion;
-
-        return $this;
-    }
 }
